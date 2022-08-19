@@ -1,0 +1,48 @@
+:root {
+    --main-color: black;
+    --sub-color: grey;
+}
+
+.input-group {
+    position: relative;
+    margin: 45px 0;
+}
+
+.form-input {
+    background: none;
+    background-color: white;
+    color: var(--sub-color);
+    font-size: 18px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid var(--sub-color);
+    margin: 25px 0;
+}
+
+/* remove outline from input field when it is clicked */
+.form-input:focus {
+    outline: none;
+}
+
+/* shrink label to top when input field is focused,
+   keep label shrinked when something is typed in the input field */
+.form-input:focus ~ .form-input-label, .form-input-label.shrink {
+    font-size: 12px;
+    top: -14px;
+    color: var(--main-color);
+}
+
+input[type='password'] {
+    letter-spacing: .3rem;
+}
+
+.form-input-label {
+    color: var(--sub-color);
+    position: absolute;
+    top: 10px;
+    left: 5px;
+    pointer-events: none;
+    transition: all 300ms ease;
+}

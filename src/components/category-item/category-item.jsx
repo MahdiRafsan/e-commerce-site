@@ -1,4 +1,4 @@
-import "./category-item.styles.css";
+import "./category-item.css";
 
 const CategoryItem = (props) => {
   // Each component i.e Hats, Sneakers etc

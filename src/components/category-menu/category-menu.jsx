@@ -1,5 +1,5 @@
-import CategoryItem from "../category-item/category-item.component";
-import "./category-menu.styles.css";
+import CategoryItem from "../category-item/category-item";
+import "./category-menu.css";
 
 const CategoryMenu = (props) => {
   const { categories } = props;

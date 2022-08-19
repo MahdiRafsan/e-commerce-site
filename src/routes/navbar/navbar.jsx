@@ -20,10 +20,7 @@ const Navbar = () => {
           <Link className="nav-link" to="/cart">
             CART
           </Link>
-          <Link className="nav-link" to="/register">
-            REGISTER
-          </Link>
-          <Link className="nav-link" to="/sign-in">
+          <Link className="nav-link" to="/auth">
             SIGN-IN
           </Link>
           <Link className="nav-link" to="/sign-out">
