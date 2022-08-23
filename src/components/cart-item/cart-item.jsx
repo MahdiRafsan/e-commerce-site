@@ -1,0 +1,18 @@
+import "./cart-item.css";
+
+const CartItem = (props) => {
+  const { name, imageUrl, price, quantity } = props.cartItem;
+  return (
+    <div className="cart-item-container">
+      <img src={imageUrl} alt={name} />
+      <div className="item-details">
+        <span className="item-name">{name}</span>
+        <span className="item-price">
+          {quantity} x ${price}
+        </span>
+      </div>
+    </div>
+  );
+};
+
+export default CartItem;
