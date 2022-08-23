@@ -7,9 +7,9 @@ import Button from "../button/button";
 import "./product-card.css";
 const ProductCard = ({product}) => {
   const { name, price, imageUrl } = product;
-  const { addItemToCart } = useContext(CartContext);
+  const { increaseCartQuantity } = useContext(CartContext);
 
-  const addProductToCart = () => addItemToCart(product);
+  const addProductToCart = () => increaseCartQuantity(product);
 
   return (
     <div className="product-card-container">
