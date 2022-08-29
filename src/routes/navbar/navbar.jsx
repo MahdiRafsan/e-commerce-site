@@ -1,10 +1,10 @@
-import { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ReactComponent as CrownLogo } from "../../assets/crown.svg";
 
+import { ReactComponent as CrownLogo } from "../../assets/crown.svg";
 import { signOutUser } from "../../utils/firebase/firebase";
-import { CartContext } from "../../contexts/cart-context";
+
+import { selectIsCartOpen } from "../../store/cart/cart-selector";
 import { selectCurrentUser } from "../../store/user/user-selector";
 
 import CartIcon from "../../components/cart-icon/cart-icon";
@@ -14,7 +14,8 @@ import "./navbar.css";
 
 const Navbar = () => {
   const currentUser = useSelector(selectCurrentUser);
-  const { isCartOpen } = useContext(CartContext);
+  const isCartOpen = useSelector(selectIsCartOpen);
+  
   return (
     <>
       <div className="navbar-container">
