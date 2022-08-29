@@ -5,6 +5,7 @@ import Category from "../category/category";
 import "./shop.css";
 
 const Shop = () => {
+  
   return (
     <Routes>
       <Route index element={<CategoriesPreview />} />

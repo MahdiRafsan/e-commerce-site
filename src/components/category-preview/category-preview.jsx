@@ -1,12 +1,17 @@
+import { Link } from "react-router-dom";
+
 import ProductCard from "../product-card/product-card";
 
 import "./category-preview.css";
 
+// renders preview for each category on shop page (first 4 items from the list)
 const CategoryPreview = ({ title, products }) => {
   return (
     <div className="category-preview-container">
       <h2>
-        <span className="category-title">{title.toUpperCase()}</span>
+        <Link to={`${title}`}>
+          <span className="category-title">{title.toUpperCase()}</span>
+        </Link>
       </h2>
       <div className="category-preview">
         {products

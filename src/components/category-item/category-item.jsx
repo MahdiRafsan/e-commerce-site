@@ -1,8 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import "./category-item.css";
 
+// renders display for each category on home page
 const CategoryItem = (props) => {
-  // renders one category on home page
   const { title, imageUrl, route } = props.category;
   const navigate = useNavigate();
 

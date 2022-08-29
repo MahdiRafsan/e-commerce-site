@@ -1,5 +1,9 @@
-import { createContext, useState } from "react";
+import { createContext, useReducer } from "react";
 
+import { createAction } from "../utils/reducer/reducer";
+
+// HELPER FUNCTIONS
+// add an item to cart
 const addCartItem = (cartItems, productToAdd) => {
   //find if cartItems contains productToAdd
   const itemExistsInCart = cartItems.find((item) => {
@@ -18,6 +22,7 @@ const addCartItem = (cartItems, productToAdd) => {
   return [...cartItems, { ...productToAdd, quantity: 1 }];
 };
 
+// remove an item from cart
 const removeOneFromCart = (cartItems, productToDecrease) => {
   //find if cartItems contains productToDecrease
   const itemExistsInCart = cartItems.find((item) => {
@@ -37,9 +42,22 @@ const removeOneFromCart = (cartItems, productToDecrease) => {
   );
 };
 
+// remove all items of one kind from the cart
 const removeFromCart = (cartItems, productToRemove) => {
   return cartItems.filter((item) => item.id !== productToRemove.id);
 };
+
+// count the number of items in the cart
+const cartCount = (cartItems) =>
+  cartItems.reduce((totalCount, item) => {
+    return totalCount + item.quantity;
+  }, 0);
+
+// calculate the total cost of items in the cart
+const cartTotalCost = (cartItems) =>
+  cartItems.reduce((total, item) => {
+    return total + item.quantity * item.price;
+  }, 0);
 
 export const CartContext = createContext({
   isCartOpen: false,
@@ -52,29 +70,70 @@ export const CartContext = createContext({
   cartTotal: 0,
 });
 
+const CART_ACTION_TYPES = {
+  SET_CART_ITEMS: "SET_CART_ITEMS",
+  SET_IS_CART_OPEN: "SET_IS_CART_OPEN",
+};
+
+const INITIAL_STATE = {
+  isCartOpen: false,
+  cartItems: [],
+  cartQuantity: 0,
+  cartTotal: 0,
+};
+
+const cartReducer = (state, action) => {
+  const { type, payload } = action;
+
+  switch (type) {
+    case CART_ACTION_TYPES.SET_CART_ITEMS:
+      return {
+        ...state,
+        ...payload,
+      };
+    case CART_ACTION_TYPES.SET_IS_CART_OPEN:
+      return { ...state, isCartOpen: payload };
+    default:
+      throw new Error(`unhandled type of ${type} in cartReducer`);
+  }
+};
+
 export const CartProvider = ({ children }) => {
-  const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [state, dispatch] = useReducer(cartReducer, INITIAL_STATE);
+  const { isCartOpen, cartItems, cartTotal, cartQuantity } = state;
+
+  const updateCartItems = (cartItems) => {
+    const updatedCartQuantity = cartCount(cartItems);
+
+    const updatedCartTotal = cartTotalCost(cartItems);
+
+    const payload = {
+      cartItems,
+      cartTotal: updatedCartTotal,
+      cartQuantity: updatedCartQuantity,
+    };
+
+    dispatch(createAction(CART_ACTION_TYPES.SET_CART_ITEMS, payload));
+  };
 
   const increaseCartQuantity = (productToAdd) => {
-    setCartItems(addCartItem(cartItems, productToAdd));
+    const newCartItems = addCartItem(cartItems, productToAdd);
+    updateCartItems(newCartItems);
   };
 
   const decreaseCartQuantity = (productToDecrease) => {
-    setCartItems(removeOneFromCart(cartItems, productToDecrease));
+    const newCartItems = removeOneFromCart(cartItems, productToDecrease);
+    updateCartItems(newCartItems);
   };
 
   const removeItemFromCart = (productToRemove) => {
-    setCartItems(removeFromCart(cartItems, productToRemove));
+    const newCartItems = removeFromCart(cartItems, productToRemove);
+    updateCartItems(newCartItems);
   };
 
-  const cartQuantity = cartItems.reduce((totalCount, item) => {
-    return totalCount + item.quantity;
-  }, 0);
-
-  const cartTotal = cartItems.reduce((total, item) => {
-    return total + item.quantity * item.price
-  }, 0)
+  const setIsCartOpen = (bool) => {
+    dispatch(createAction(CART_ACTION_TYPES.SET_IS_CART_OPEN, bool));
+  };
 
   const value = {
     isCartOpen,
@@ -84,7 +143,7 @@ export const CartProvider = ({ children }) => {
     removeItemFromCart,
     cartItems,
     cartQuantity,
-    cartTotal
+    cartTotal,
   };
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

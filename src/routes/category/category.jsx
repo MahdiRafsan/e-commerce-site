@@ -7,6 +7,8 @@ import { CategoriesContext } from "../../contexts/categories-context";
 
 import "./category.css";
 
+// renders all products of a category on its own page
+// route: '/shop/:category'
 const Category = () => {
   const { category } = useParams();
   const { categoriesMap } = useContext(CategoriesContext);
@@ -17,12 +19,15 @@ const Category = () => {
   }, [category, categoriesMap]);
 
   return (
-    <div className="category-container-2">
+    <div className='category-container-category-page'>
+    <h2>{category}</h2>
+    <div className="category-items-container">
       {products &&
         products.map((product) => {
           return <ProductCard key={product.id} product={product} />;
         })}
     </div>
+  </div>
   );
 };
 

@@ -1,4 +1,11 @@
-.category-container-2 {
+.category-container-category-page h2 {
+    font-size: 30px;
+    text-align: center;
+    text-transform: uppercase;
+    
+}
+
+.category-items-container {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     column-gap: 20px;
